@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Hello </title>
+  <title>For You ❤️</title>
 
   <style>
     body {
@@ -31,7 +31,7 @@
       margin: 20px 0;
       box-shadow: 0 0 25px rgba(255, 77, 136, 0.6);
       filter: blur(10px);
-      transition: filter 1s ease;
+      transition: filter 0.5s ease;
     }
 
     button {
@@ -71,12 +71,11 @@
 
   <script>
     const lines = [
-  "we talk too much for this to be nothing 😭",
-  "I’m not complaining though",
-  "so yeah…",
-  "be my girlfriend?"
-];
-    
+      "ngl… I actually like you",
+      "and I like us",
+      "so I’ll just ask",
+      "be my girlfriend?"
+    ];
 
     const images = ["pic1.jpg", "pic2.jpg", "pic3.jpg"];
 
@@ -86,7 +85,7 @@
     function typeEffect() {
       if (i < lines.length) {
 
-        if (j === 0) {
+        if (j === 0 && i < images.length) {
           changeImage(i);
         }
 
@@ -97,7 +96,7 @@
         } else {
           j = 0;
           i++;
-          setTimeout(typeEffect, 800);
+          setTimeout(typeEffect, 700);
         }
 
       } else {
@@ -109,20 +108,16 @@
     function changeImage(index) {
       const img = document.getElementById("photo");
 
-      if (index < images.length) {
-        img.style.filter = "blur(10px)";
+      img.style.filter = "blur(10px)";
 
-        setTimeout(() => {
-          img.src = images[index];
-          img.onload = () => {
-            img.style.filter = "blur(0px)";
-          };
-        }, 300);
-      }
+      setTimeout(() => {
+        img.src = images[index];
+        img.style.filter = "blur(0px)";
+      }, 200);
     }
 
     function yesClicked() {
-      document.body.innerHTML = "<h1>Say less 😭</h1>";
+      document.body.innerHTML = "<h1>Say less 😭❤️</h1>";
     }
 
     const noBtn = document.getElementById("noBtn");
