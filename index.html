@@ -5,17 +5,26 @@
 
   <style>
     body {
-      background: #0f0f0f;
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle at top, #1a1a1a, #000);
       color: #fff;
       font-family: monospace;
       text-align: center;
       padding-top: 80px;
       overflow: hidden;
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     h1 {
       color: #ff4d88;
       font-size: 2.5em;
+      text-shadow: 0 0 15px rgba(255, 77, 136, 0.8);
     }
 
     #text {
@@ -25,13 +34,33 @@
       min-height: 60px;
     }
 
+    /* blinking cursor */
+    #text::after {
+      content: "|";
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* glow pulse */
+    #text.glow {
+      animation: glowPulse 1s infinite alternate;
+    }
+
+    @keyframes glowPulse {
+      from { text-shadow: 0 0 5px #ff4d88; }
+      to { text-shadow: 0 0 20px #ff4d88; }
+    }
+
     img {
       width: 260px;
       border-radius: 20px;
       margin: 20px 0;
-      box-shadow: 0 0 25px rgba(255, 77, 136, 0.6);
+      box-shadow: 0 0 30px rgba(255, 77, 136, 0.6);
       filter: blur(10px);
-      transition: filter 0.5s ease;
+      transition: all 0.5s ease;
     }
 
     button {
@@ -43,6 +72,8 @@
       cursor: pointer;
       font-size: 1em;
       position: absolute;
+      box-shadow: 0 0 15px rgba(255, 77, 136, 0.8);
+      transition: 0.2s;
     }
 
     #yesBtn {
@@ -50,8 +81,19 @@
       margin: 15px;
     }
 
+    #yesBtn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px #ff4d88;
+    }
+
     #buttons {
       display: none;
+    }
+
+    video {
+      width: 300px;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(255,77,136,1);
     }
   </style>
 </head>
@@ -69,12 +111,14 @@
     <button id="noBtn">No 🙄</button>
   </div>
 
+  <audio id="clickSound" src="click.mp3"></audio>
+
   <script>
     const lines = [
       "ngl… I actually like you",
       "and I like us",
       "so I’ll just ask",
-      "be my girlfriend?"
+      "will you be my girlfriend?"
     ];
 
     const images = ["pic1.jpg", "pic2.jpg", "pic3.jpg"];
@@ -94,6 +138,9 @@
             lines[i].substring(0, j++);
           setTimeout(typeEffect, 40);
         } else {
+          if (i === lines.length - 1) {
+            document.getElementById("text").classList.add("glow");
+          }
           j = 0;
           i++;
           setTimeout(typeEffect, 700);
@@ -117,7 +164,20 @@
     }
 
     function yesClicked() {
-      document.body.innerHTML = "<h1>Say less 😭❤️</h1>";
+      document.getElementById("clickSound").play();
+
+      document.body.innerHTML = `
+        <div style="opacity:0; transition:1s" id="final">
+          <h1>Say less 😭❤️</h1>
+          <video autoplay loop controls>
+            <source src="video.mp4" type="video/mp4">
+          </video>
+        </div>
+      `;
+
+      setTimeout(() => {
+        document.getElementById("final").style.opacity = 1;
+      }, 100);
     }
 
     const noBtn = document.getElementById("noBtn");
@@ -128,6 +188,12 @@
     }
 
     noBtn.addEventListener("mouseover", moveNoButton);
+
+    // mouse glow effect
+    document.addEventListener("mousemove", e => {
+      document.body.style.background =
+        `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, #1a1a1a, #000)`;
+    });
 
     typeEffect();
   </script>
