@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello </title>
+
+  <style>
+    body {
+      background: #0f0f0f;
+      color: #fff;
+      font-family: monospace;
+      text-align: center;
+      padding-top: 80px;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #ff4d88;
+      font-size: 2.5em;
+    }
+
+    #text {
+      font-size: 1.4em;
+      margin: 30px auto;
+      width: 80%;
+      min-height: 60px;
+    }
+
+    img {
+      width: 260px;
+      border-radius: 20px;
+      margin: 20px 0;
+      box-shadow: 0 0 25px rgba(255, 77, 136, 0.6);
+      filter: blur(10px);
+      transition: filter 1s ease;
+    }
+
+    button {
+      padding: 12px 25px;
+      border: none;
+      background: #ff4d88;
+      color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1em;
+      position: absolute;
+    }
+
+    #yesBtn {
+      position: static;
+      margin: 15px;
+    }
+
+    #buttons {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Hey Nthato ❤️</h1>
+
+  <img id="photo" src="pic1.jpg" alt="Us">
+
+  <div id="text"></div>
+
+  <div id="buttons">
+    <button id="yesBtn" onclick="yesClicked()">Yes 😌</button>
+    <button id="noBtn">No 🙄</button>
+  </div>
+
+  <script>
+    const lines = [
+  "we talk too much for this to be nothing 😭",
+  "I’m not complaining though",
+  "so yeah…",
+  "be my girlfriend?"
+];
+    
+
+    const images = ["pic1.jpg", "pic2.jpg", "pic3.jpg"];
+
+    let i = 0;
+    let j = 0;
+
+    function typeEffect() {
+      if (i < lines.length) {
+
+        if (j === 0) {
+          changeImage(i);
+        }
+
+        if (j <= lines[i].length) {
+          document.getElementById("text").innerHTML =
+            lines[i].substring(0, j++);
+          setTimeout(typeEffect, 40);
+        } else {
+          j = 0;
+          i++;
+          setTimeout(typeEffect, 800);
+        }
+
+      } else {
+        document.getElementById("buttons").style.display = "block";
+        moveNoButton();
+      }
+    }
+
+    function changeImage(index) {
+      const img = document.getElementById("photo");
+
+      if (index < images.length) {
+        img.style.filter = "blur(10px)";
+
+        setTimeout(() => {
+          img.src = images[index];
+          img.onload = () => {
+            img.style.filter = "blur(0px)";
+          };
+        }, 300);
+      }
+    }
+
+    function yesClicked() {
+      document.body.innerHTML = "<h1>Say less 😭</h1>";
+    }
+
+    const noBtn = document.getElementById("noBtn");
+
+    function moveNoButton() {
+      noBtn.style.top = Math.random() * window.innerHeight + "px";
+      noBtn.style.left = Math.random() * window.innerWidth + "px";
+    }
+
+    noBtn.addEventListener("mouseover", moveNoButton);
+
+    typeEffect();
+  </script>
+
+</body>
+</html>
